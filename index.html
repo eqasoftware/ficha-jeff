@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha Jefferson Almeida — Upper/Lower</title>
+  <meta name="description"
+    content="App de treino Upper/Lower com registro de séries, cargas, progresso, descanso e histórico local." />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png" />
+  <meta name="theme-color" content="#060606" />
+  <meta name="application-name" content="Ficha Jeff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Ficha Jeff" />
+  <!-- iOS usa apple-touch-icon, ignora o manifest.json para ícone -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-180.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@300;400;500;600;700&amp;family=DM+Mono:wght@400;500&amp;display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./tracker.css" />
+  <script type="module" src="./app.js"></script>
+</head>
+
+<body class="is-booting">
+  <div class="boot-splash" id="bootSplash" aria-hidden="true">
+    <div class="boot-card">
+      <div class="boot-icon-wrap">
+        <img class="boot-icon" src="./icons/icon-180.png" alt="" width="96" height="96" />
+      </div>
+      <div class="boot-label">Treino Upper / Lower</div>
+      <div class="boot-title">FICHA JEFF</div>
+      <p class="boot-copy">Carregando sua ficha com acesso r&aacute;pido, visual de app e suporte offline.</p>
+      <div class="boot-progress"></div>
+    </div>
+  </div>
+  <div class="app">
+    <div class="container hero-wrap">
+      <header class="hero reveal">
+        <div class="hero-grid">
+          <div>
+            <div class="badge">Ficha Jefferson Almeida</div>
+            <h1>UPPER/<br><span>LOWER</span></h1>
+            <p class="hero-sub">
+              Programa semanal de força e hipertrofia com progressão planejada, orientação de execução e recuperação
+              estratégica.
+            </p>
+          </div>
+
+          <div class="hero-side">
+            <div class="hero-card">
+              <div class="hero-card-label">Objetivo</div>
+              <div class="hero-card-value">Força + Hipertrofia com progressão consistente</div>
+            </div>
+            <div class="hero-card">
+              <div class="hero-card-label">Frequência</div>
+              <div class="hero-card-value">5 sessões por semana com descanso estratégico</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Nível</span>
+            <span class="meta-value">Intermediário / Avançado</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Split</span>
+            <span class="meta-value">5×/semana</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Metodologia</span>
+            <span class="meta-value">Força + Hipertrofia</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Sessão</span>
+            <span class="meta-value">90–120 min</span>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <div class="container sticky-nav-wrap">
+      <nav class="week-nav reveal" aria-label="Treinos da semana" role="tablist">
+        <button class="day-tab active" id="tab-seg" data-day="seg" type="button" role="tab"
+          aria-controls="seg" aria-selected="true" tabindex="0">
+          <div class="tab-day">Segunda</div>
+          <div class="tab-name">Upper<br>Força</div>
+          <span class="tab-type tag-forca">Neural</span>
+        </button>
+        <button class="day-tab" id="tab-ter" data-day="ter" type="button" role="tab"
+          aria-controls="ter" aria-selected="false" tabindex="-1">
+          <div class="tab-day">Terça</div>
+          <div class="tab-name">Lower<br>Força</div>
+          <span class="tab-type tag-forca">Neural</span>
+        </button>
+        <button class="day-tab" id="tab-qua" data-day="qua" type="button" role="tab"
+          aria-controls="qua" aria-selected="false" tabindex="-1">
+          <div class="tab-day">Quarta</div>
+          <div class="tab-name">Push<br>Hiper</div>
+          <span class="tab-type tag-hiper">Volume</span>
+        </button>
+        <button class="day-tab" id="tab-qui" data-day="qui" type="button" role="tab"
+          aria-controls="qui" aria-selected="false" tabindex="-1">
+          <div class="tab-day">Quinta</div>
+          <div class="tab-name">Lower<br>Hiper</div>
+          <span class="tab-type tag-hiper">Volume</span>
+        </button>
+        <button class="day-tab" id="tab-sex" data-day="sex" type="button" role="tab"
+          aria-controls="sex" aria-selected="false" tabindex="-1">
+          <div class="tab-day">Sexta</div>
+          <div class="tab-name">Pull<br>Hiper</div>
+          <span class="tab-type tag-hiper">Volume</span>
+        </button>
+        <button class="day-tab rest-tab" id="tab-fds" data-day="fds" type="button" role="tab"
+          aria-controls="fds" aria-selected="false" tabindex="-1">
+          <div class="tab-day">Sáb + Dom</div>
+          <div class="tab-name">Descanso<br>Total</div>
+          <span class="tab-type tag-rest">Rest</span>
+        </button>
+      </nav>
+    </div>
+
+    <section class="container training-console reveal" aria-labelledby="sessionTitle">
+      <div class="console-copy">
+        <div class="console-status">
+          <span class="status-pulse" aria-hidden="true"></span>
+          <span id="sessionEyebrow">Pronto para treinar</span>
+        </div>
+        <h2 id="sessionTitle">Seu treino em modo execução.</h2>
+        <p id="sessionCopy">Inicie a sessão e registre carga e repetições de cada série.</p>
+        <div class="console-actions">
+          <button class="console-btn primary" id="sessionToggle" type="button">Iniciar treino</button>
+          <button class="console-btn ghost" id="historyOpen" type="button">
+            Histórico <span class="console-count" id="historyCount">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="progress-orbit" id="progressOrbit" style="--progress: 0">
+        <div class="progress-orbit-core">
+          <strong id="sessionProgress">0%</strong>
+          <span>concluído</span>
+        </div>
+      </div>
+
+      <div class="session-metrics" aria-label="Métricas da sessão">
+        <div class="session-metric">
+          <span class="metric-value" id="completedSets">0/0</span>
+          <span class="metric-label">Séries</span>
+        </div>
+        <div class="session-metric">
+          <span class="metric-value" id="sessionVolume">0 kg</span>
+          <span class="metric-label">Volume</span>
+        </div>
+        <div class="session-metric">
+          <span class="metric-value" id="sessionDuration">00:00</span>
+          <span class="metric-label">Duração</span>
+        </div>
+        <div class="session-metric">
+          <span class="metric-value" id="totalSessions">0</span>
+          <span class="metric-label">Treinos</span>
+        </div>
+      </div>
+    </section>
+
+    <main class="container content">
+      <section class="day-panel active" id="seg" role="tabpanel" aria-labelledby="tab-seg">
+        <div class="day-shell reveal">
+          <div class="day-header">
+            <div>
+              <div class="day-title">UPPER <em>FORÇA</em></div>
+              <p class="day-subtitle">Sessão focada em tensão mecânica máxima, compostos pesados e progressão de carga.
+              </p>
+            </div>
+            <div class="day-stats">
+              <div class="stat-box">
+                <div class="stat-num" data-target="27">27</div>
+                <div class="stat-label">Séries</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">4–6</div>
+                <div class="stat-label">Rep range</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">3–5</div>
+                <div class="stat-label">Min descanso</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-layout">
+            <div class="block reveal">
+              <div class="block-label">Empurrar — Horizontal</div>
+              <div class="exercise">
+                <div class="ex-name">Supino Reto com Barra <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">5 séries</div>
+                <div class="ex-reps">4–6</div>
+              </div>
+              <div class="exercise">
+                <div class="ex-name">Supino Inclinado com Barra <span class="ex-tag">acessório</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">5–7</div>
+              </div>
+            </div>
+
+            <div class="block reveal">
+              <div class="block-label">Puxar — Vertical + Horizontal</div>
+              <div class="exercise">
+                <div class="ex-name">Barra Fixa Lastrada <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">5 séries</div>
+                <div class="ex-reps">4–6</div>
+              </div>
+              <div class="exercise">
+                <div class="ex-name">Remada Curvada com Barra <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">5–7</div>
+              </div>
+            </div>
+
+            <div class="block reveal">
+              <div class="block-label">Ombros — Empurrar Vertical</div>
+              <div class="exercise">
+                <div class="ex-name">Desenvolvimento Militar com Barra <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">4–6</div>
+              </div>
+            </div>
+
+            <div class="block neutral reveal">
+              <div class="block-label">Saúde do Ombro + Bíceps</div>
+              <div class="exercise neutral">
+                <div class="ex-name">Face Pull com Corda <span class="ex-tag">rotador</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+              <div class="exercise neutral">
+                <div class="ex-name">Rosca Direta com Barra <span class="ex-tag">complemento</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">6–8</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tips-grid">
+            <div class="tip reveal">
+              <div class="tip-icon">⚡</div>
+              <div class="tip-title">Intensidade</div>
+              <p>Trabalhe a 1–2 reps do falho em todos os compostos. RPE 8–9.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">⏱</div>
+              <div class="tip-title">Descanso</div>
+              <p>3–5 min nos compostos principais. Não encurte — é onde a força é construída.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">📈</div>
+              <div class="tip-title">Progressão</div>
+              <p>Ao atingir o teto de reps em todas as séries, aumente a carga na próxima semana.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="day-panel" id="ter" role="tabpanel" aria-labelledby="tab-ter" hidden>
+        <div class="day-shell reveal">
+          <div class="day-header">
+            <div>
+              <div class="day-title">LOWER <em>FORÇA</em></div>
+              <p class="day-subtitle">Base da semana para membros inferiores, com foco em potência, estabilidade e
+                estrutura.</p>
+            </div>
+            <div class="day-stats">
+              <div class="stat-box">
+                <div class="stat-num" data-target="31">31</div>
+                <div class="stat-label">Séries</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">4–8</div>
+                <div class="stat-label">Rep range</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">3–5</div>
+                <div class="stat-label">Min descanso</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-layout">
+            <div class="block reveal">
+              <div class="block-label">Quadríceps — Dominante</div>
+              <div class="exercise">
+                <div class="ex-name">Agachamento Livre com Barra <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">5 séries</div>
+                <div class="ex-reps">4–6</div>
+              </div>
+              <div class="exercise">
+                <div class="ex-name">Leg Press Pesado (Pé Neutro) <span class="ex-tag">acessório</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">6–8</div>
+              </div>
+            </div>
+
+            <div class="block reveal">
+              <div class="block-label">Posterior de Coxa</div>
+              <div class="exercise">
+                <div class="ex-name">Levantamento Terra Romeno <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">5–7</div>
+              </div>
+              <div class="exercise">
+                <div class="ex-name">Cadeira Flexora <span class="ex-tag">isolamento</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">8–10</div>
+              </div>
+            </div>
+
+            <div class="block reveal">
+              <div class="block-label">Unilateral — Estabilidade</div>
+              <div class="exercise">
+                <div class="ex-name">Agachamento Búlgaro (Barra) <span class="ex-tag">força uni</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">6–8</div>
+              </div>
+            </div>
+
+            <div class="block neutral reveal">
+              <div class="block-label">Panturrilha + Core Pesado</div>
+              <div class="exercise neutral">
+                <div class="ex-name">Panturrilha em Pé (Carga Alta) <span class="ex-tag">força</span></div>
+                <div class="ex-sets">5 séries</div>
+                <div class="ex-reps">6–10</div>
+              </div>
+              <div class="exercise neutral">
+                <div class="ex-name">Ab Wheel <span class="ex-tag">core</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">10–12</div>
+              </div>
+              <div class="exercise neutral">
+                <div class="ex-name">Prancha com Carga nas Costas <span class="ex-tag">core</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">30–45s</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tips-grid">
+            <div class="tip reveal">
+              <div class="tip-icon">🦵</div>
+              <div class="tip-title">Agachamento</div>
+              <p>Profundidade real e técnica impecável vencem qualquer ego de carga.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">🔥</div>
+              <div class="tip-title">Búlgaro</div>
+              <p>Faça enquanto ainda estiver inteiro. Ele vai cobrar estabilidade e controle.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">💤</div>
+              <div class="tip-title">Recuperação</div>
+              <p>Esse é o treino mais drenante da semana. Sono e alimentação fazem diferença real.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="day-panel" id="qua" role="tabpanel" aria-labelledby="tab-qua" hidden>
+        <div class="day-shell reveal">
+          <div class="day-header">
+            <div>
+              <div class="day-title hiper">PUSH <em>HIPERTROFIA</em></div>
+              <p class="day-subtitle">Volume elevado, controle do tempo sob tensão e foco total em peito, ombros e
+                tríceps.</p>
+            </div>
+            <div class="day-stats">
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)" data-target="31">31</div>
+                <div class="stat-label">Séries</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)">8–15</div>
+                <div class="stat-label">Rep range</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)">90s–2</div>
+                <div class="stat-label">Min descanso</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-layout">
+            <div class="block hiper reveal">
+              <div class="block-label">Peito — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Supino Inclinado com Halter <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">8–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Supino Reto Máquina ou Smith <span class="ex-tag">volume</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">10–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Crucifixo Máquina (Peck Deck) <span class="ex-tag">estiramento</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Crossover Cabo (Inferior) <span class="ex-tag">finalizador</span></div>
+                <div class="ex-sets">2 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+            </div>
+
+            <div class="block hiper reveal">
+              <div class="block-label">Ombros — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Desenvolvimento com Halter <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">8–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Elevação Lateral (Cabo ou Halter) <span class="ex-tag">volume</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Elevação Lateral Inclinada (Halter) <span class="ex-tag">estiramento</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+            </div>
+
+            <div class="block hiper reveal">
+              <div class="block-label">Tríceps — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Tríceps Testa (Barra W) <span class="ex-tag">massa</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">8–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Tríceps Corda no Cabo <span class="ex-tag">volume</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Mergulho em Banco (Peso Corporal) <span class="ex-tag">estiramento</span></div>
+                <div class="ex-sets">2 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tips-grid">
+            <div class="tip reveal">
+              <div class="tip-icon">🎯</div>
+              <div class="tip-title">Mind-muscle</div>
+              <p>Controle a excêntrica e faça cada repetição parecer uma repetição de qualidade.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">🔁</div>
+              <div class="tip-title">Descanso curto</div>
+              <p>Aqui a densidade do treino importa. Menos pausa, mais controle e mais pump.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">📊</div>
+              <div class="tip-title">Volume</div>
+              <p>Se estabilizar no topo das reps por 2 semanas, aumente volume ou carga mínima.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="day-panel" id="qui" role="tabpanel" aria-labelledby="tab-qui" hidden>
+        <div class="day-shell reveal">
+          <div class="day-header">
+            <div>
+              <div class="day-title hiper">LOWER <em>HIPERTROFIA</em></div>
+              <p class="day-subtitle">Ênfase em posterior, glúteos, quadríceps e construção visual de perna completa.
+              </p>
+            </div>
+            <div class="day-stats">
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)" data-target="32">32</div>
+                <div class="stat-label">Séries</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)">8–20</div>
+                <div class="stat-label">Rep range</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)">90s–2</div>
+                <div class="stat-label">Min descanso</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-layout">
+            <div class="block hiper reveal">
+              <div class="block-label">Posterior — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Terra Romeno com Halter <span class="ex-tag">principal</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">8–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Cadeira Flexora <span class="ex-tag">isolamento</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Curl Nórdico (se disponível) <span class="ex-tag">prevenção</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">6–10</div>
+              </div>
+            </div>
+
+            <div class="block hiper reveal">
+              <div class="block-label">Quadríceps — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Leg Press Pé Alto (Glúteo) <span class="ex-tag">volume</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">10–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Passada Andando com Halteres <span class="ex-tag">unilateral</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Extensora (Amplitude Curta) <span class="ex-tag">isolamento</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+            </div>
+
+            <div class="block neutral reveal">
+              <div class="block-label">Panturrilha + Core</div>
+              <div class="exercise neutral">
+                <div class="ex-name">Panturrilha Sentado (Alta Repetição) <span class="ex-tag">sóleo</span></div>
+                <div class="ex-sets">5 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+              <div class="exercise neutral">
+                <div class="ex-name">Elevação de Pernas Pendurado <span class="ex-tag">core</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise neutral">
+                <div class="ex-name">Crunch na Polia <span class="ex-tag">core</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tips-grid">
+            <div class="tip reveal">
+              <div class="tip-icon">🦴</div>
+              <div class="tip-title">Curl Nórdico</div>
+              <p>Excelente para prevenção. Subestimado, brutal e muito eficiente para posterior.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">📐</div>
+              <div class="tip-title">Extensora</div>
+              <p>Controle total na subida e descida para extrair mais do quadríceps sem roubar.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">💤</div>
+              <div class="tip-title">Recuperação cruzada</div>
+              <p>Lower hoje e Pull amanhã: ótimo encaixe sem colisão direta de grupamentos.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="day-panel" id="sex" role="tabpanel" aria-labelledby="tab-sex" hidden>
+        <div class="day-shell reveal">
+          <div class="day-header">
+            <div>
+              <div class="day-title hiper">PULL <em>HIPERTROFIA</em></div>
+              <p class="day-subtitle">Largura, espessura, dorsais, bíceps e finalização com cardio leve para recuperação
+                ativa.</p>
+            </div>
+            <div class="day-stats">
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)" data-target="29">29</div>
+                <div class="stat-label">Séries</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)">8–15</div>
+                <div class="stat-label">Rep range</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" style="color:var(--accent2)">90s–2</div>
+                <div class="stat-label">Min descanso</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-layout">
+            <div class="block hiper reveal">
+              <div class="block-label">Costas — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Pulldown Pegada Larga (Frente) <span class="ex-tag">largura</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">8–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Remada Articulada (Hammer) <span class="ex-tag">espessura</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">10–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Remada Unilateral com Halter <span class="ex-tag">unilateral</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">10–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Pullover no Cabo <span class="ex-tag">grande dorsal</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Remada Sentado Cabo (Triângulo) <span class="ex-tag">finalizador</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+            </div>
+
+            <div class="block hiper reveal">
+              <div class="block-label">Bíceps — Volume Total</div>
+              <div class="exercise hiper">
+                <div class="ex-name">Rosca Direta com Barra W <span class="ex-tag">massa</span></div>
+                <div class="ex-sets">4 séries</div>
+                <div class="ex-reps">8–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Rosca Martelo Alternada <span class="ex-tag">braquial</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">10–12</div>
+              </div>
+              <div class="exercise hiper">
+                <div class="ex-name">Rosca Concentrada ou Cabo <span class="ex-tag">pico</span></div>
+                <div class="ex-sets">2 séries</div>
+                <div class="ex-reps">12–15</div>
+              </div>
+            </div>
+
+            <div class="block neutral reveal">
+              <div class="block-label">Saúde + Cardio</div>
+              <div class="exercise neutral">
+                <div class="ex-name">Face Pull Leve com Corda <span class="ex-tag">rotador</span></div>
+                <div class="ex-sets">3 séries</div>
+                <div class="ex-reps">15–20</div>
+              </div>
+              <div class="cardio-row">
+                <div class="cardio-label">🚴 Cardio de Baixa Intensidade</div>
+                <div class="cardio-detail">25–30 min / Zona 2</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tips-grid">
+            <div class="tip reveal">
+              <div class="tip-icon">🔗</div>
+              <div class="tip-title">Escápula</div>
+              <p>Organize a escápula antes de puxar. Isso muda completamente a qualidade do movimento.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">💪</div>
+              <div class="tip-title">Bíceps</div>
+              <p>Se o braço começar a roubar demais a sessão, corte o volume final e preserve costas.</p>
+            </div>
+            <div class="tip reveal">
+              <div class="tip-icon">❤️</div>
+              <div class="tip-title">Zona 2</div>
+              <p>Cardio leve para acelerar recuperação, não para te destruir no final da semana.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="day-panel" id="fds" role="tabpanel" aria-labelledby="tab-fds" hidden>
+        <div class="day-shell reveal">
+          <div class="rest-panel">
+            <div class="rest-orb">😴</div>
+            <div class="rest-title">FIM DE SEMANA</div>
+            <p class="rest-sub">Dois dias de descanso total. Comer bem, hidratar, dormir e reduzir fadiga fazem parte da
+              evolução. Sem recuperação, não existe progressão sustentável.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="overload-box reveal">
+        <div class="overload-header">SISTEMA DE PROGRESSÃO — DOUBLE PROGRESSION</div>
+        <div class="overload-body">
+          <div class="overload-item">
+            <div class="overload-num">1°</div>
+            <div class="overload-desc">Atinja o teto de reps em todas as séries por 2 semanas consecutivas.</div>
+          </div>
+          <div class="overload-item">
+            <div class="overload-num">2°</div>
+            <div class="overload-desc">Adicione o menor incremento possível para continuar progredindo sem perder
+              execução.</div>
+          </div>
+          <div class="overload-item">
+            <div class="overload-num">3°</div>
+            <div class="overload-desc">Com a nova carga, volte ao piso das reps e reinicie o ciclo de construção.</div>
+          </div>
+          <div class="overload-item">
+            <div class="overload-num">4°</div>
+            <div class="overload-desc">A cada 8–10 semanas, faça deload para baixar fadiga e preservar performance.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-dev-wrap reveal">
+        <div class="deploy-line"></div>
+
+        <p class="footer-note dev-text">
+          <span id="typing-dev"></span><span class="typing-caret"></span>
+        </p>
+
+        <p class="dev-subnote">build • test • deploy • evolve</p>
+      </div>
+    </main>
+
+    <!-- Exercise Detail Modal -->
+    <div class="ex-modal-overlay" id="exModal" role="dialog" aria-modal="true" aria-labelledby="exModalName"
+      aria-hidden="true" inert>
+      <div class="ex-modal" id="exModalPanel">
+        <div class="ex-modal-handle"></div>
+        <button class="ex-modal-close" id="exModalClose" aria-label="Fechar">&#215;</button>
+        <div class="ex-modal-name" id="exModalName"></div>
+        <div class="ex-modal-muscles" id="exModalMuscles"></div>
+        <div class="ex-modal-section ex-log-section" id="exLogSection">
+          <div class="ex-log-heading">
+            <div>
+              <div class="ex-section-title">Registro da sessão</div>
+              <p class="ex-log-copy" id="exLogCopy">Carga, repetições e conclusão de cada série.</p>
+            </div>
+            <span class="ex-log-progress" id="exLogProgress">0/0</span>
+          </div>
+          <div class="previous-performance" id="previousPerformance" hidden></div>
+          <div class="set-log" id="exSetLog"></div>
+        </div>
+        <div class="ex-modal-section">
+          <div class="ex-section-title">Execução</div>
+          <div class="ex-cues" id="exModalCues"></div>
+        </div>
+        <div class="ex-modal-section">
+          <div class="ex-section-title">Erros comuns</div>
+          <div class="ex-mistakes" id="exModalMistakes"></div>
+        </div>
+        <div class="ex-modal-actions">
+          <a class="ex-yt-btn" id="exModalYT" href="#" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            Ver no YouTube
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-overlay" id="historyOverlay" aria-hidden="true" inert>
+      <aside class="history-drawer" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+        <div class="history-header">
+          <div>
+            <span class="history-kicker">Consistência acumulada</span>
+            <h2 id="historyTitle">Histórico de treinos</h2>
+          </div>
+          <button class="history-close" id="historyClose" type="button" aria-label="Fechar histórico">&#215;</button>
+        </div>
+        <div class="history-summary" id="historySummary"></div>
+        <div class="history-list" id="historyList"></div>
+      </aside>
+    </div>
+
+    <aside class="rest-timer" id="restTimer" hidden>
+      <div>
+        <span class="rest-timer-label">Descanso</span>
+        <strong id="restTimerValue" role="timer">01:30</strong>
+      </div>
+      <div class="rest-timer-actions">
+        <button id="restMinus" type="button" aria-label="Diminuir descanso em 15 segundos">−15</button>
+        <button id="restSkip" type="button">Pular</button>
+        <button id="restPlus" type="button" aria-label="Aumentar descanso em 15 segundos">+15</button>
+      </div>
+    </aside>
+
+    <div class="app-toast" id="appToast" role="status" aria-live="polite"></div>
+  </div>
+</body>
+
+</html>
